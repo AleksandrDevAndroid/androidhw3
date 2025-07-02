@@ -1,33 +1,28 @@
 package com.alexperov.test
 
-interface Attachment {
-    val type: String
+sealed class Attachment(val type: String) {
+
+
+    class AttachmentPhoto(
+        val photo: Photo
+    )
+
+    class AttachmentVideo(
+        val video: Video
+    )
+
+    class AttachmentFile(
+        val file: File
+    )
+
+    class AttachmentAudio(
+        val audio: Audio
+    )
+
+    class AttachmentUrl(
+        val url: Url
+    )
 }
-
-class AttachmentPhoto(
-    override val type: String,
-    val photo: Photo
-) : Attachment
-
-class AttachmentVideo(
-    override val type: String,
-    val video: Video
-) : Attachment
-
-class AttachmentFile(
-    override val type: String,
-    val file: File
-) : Attachment
-
-class AttachmentAudio(
-    override val type: String,
-    val audio: Audio
-) : Attachment
-
-class AttachmentUrl(
-    override val type: String,
-    val url: Url
-) : Attachment
 
 data class Photo(
     val id: Int,
