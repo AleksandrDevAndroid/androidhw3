@@ -1,41 +1,56 @@
 package com.alexperov.androidhw3
 
+import com.alexperov.test.AttachmentPhoto
+import com.alexperov.test.Photo
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
 class WallServiceTest {
+    private lateinit var testPost: Post
+    private lateinit var testAttachment: AttachmentPhoto
+
+    @Before
+    fun clear() {
+        WallService.clear()
+        testPost = Post(1, 1, 1, 1, "1", 1, 1, true, 0)
+        testAttachment =
+            AttachmentPhoto("photo", Photo(1, 1, 1, 1, "http://example.com/1.jpg"))
+    }
 
     @Test
     fun checkaAddPost() {
-        var post1 = Post(1,1,1,1,"1",1,1,true,0)
-        var result = WallService.addPost(post1)
-        assertEquals(result,post1)
+        var result = WallService.addPost(testPost)
+        assertEquals(result, testPost)
 
     }
 
     @Test
     fun checkUpdateTrue() {
-        var post2 = Post(2,1,1,1,"1",1,1,true,0)
-        WallService.addPost(post2)
-        val result = WallService.update(post2,"new text")
+        WallService.addPost(testPost)
+        val result = WallService.update(testPost, "new text")
         assertEquals(result, true)
     }
+
     @Test
     fun checkUpdateFalse() {
-        var post3 = Post(3,1,1,1,"1",1,1,true,0)
-        val result = WallService.update(post3,"skip add post ")
-        assertEquals(result,false)
+        val result = WallService.update(testPost, "skip add post ")
+        assertEquals(result, false)
     }
 
     @Test
-    fun checkClear(){
-        var post4 = Post(4,1,1,1,"1",1,1,true,0)
-        WallService.addPost(post4)
+    fun checkClear() {
+        WallService.addPost(testPost)
         var result = WallService.clear()
-        assertEquals(result,true)
+        assertEquals(result, true)
 
     }
 
+    @Test
+    fun checkAddAttachment() {
+
+        var result = WallService.addAttachment(testPost, testAttachment)
+        assertEquals(result, true)
+    }
 
 }

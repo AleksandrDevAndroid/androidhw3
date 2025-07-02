@@ -1,12 +1,23 @@
 package com.alexperov.androidhw3
 
+import com.alexperov.test.Attachment
+
 object WallService {
 
     private var posts = mutableMapOf<Int, Post>()
     private var id = 0
 
+    private var attachment: Array<Attachment> = emptyArray()
     private fun add(post: Post) {
         posts[post.id as Int] = post
+    }
+
+    fun addAttachment(post: Post, attachment: Attachment): Boolean {
+        post.attachment.add(attachment)
+        if (post.attachment.last() == attachment)
+            return true
+        else return false
+
     }
 
     fun clear(): Boolean {
@@ -36,4 +47,5 @@ object WallService {
     fun showPost(id: Int?) {
         println(posts[id].toString())
     }
+
 }

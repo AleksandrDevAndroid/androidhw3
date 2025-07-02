@@ -1,4 +1,6 @@
 package com.alexperov.androidhw3
+
+import com.alexperov.test.Attachment
 import java.time.LocalDate
 
 
@@ -12,10 +14,9 @@ data class Post(
     val replyPostId: Int?,
     val canPin: Boolean?,
     val likes: Int?,
-    val date: LocalDate = LocalDate.now()
-
+    val date: LocalDate = LocalDate.now(),
+    var attachment: MutableList<Attachment> = mutableListOf()
 )
-
 
 
 
