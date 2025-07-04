@@ -1,6 +1,7 @@
 package com.alexperov.androidhw3
 
-import com.alexperov.test.AttachmentPhoto
+import com.alexperov.test.Attachment
+import com.alexperov.test.Attachment.AttachmentPhoto
 import com.alexperov.test.Photo
 import org.junit.Assert.*
 import org.junit.Before
@@ -8,14 +9,14 @@ import org.junit.Test
 
 class WallServiceTest {
     private lateinit var testPost: Post
-    private lateinit var testAttachment: AttachmentPhoto
+    private lateinit var testAttachment: Attachment
 
     @Before
     fun clear() {
         WallService.clear()
         testPost = Post(1, 1, 1, 1, "1", 1, 1, true, 0)
         testAttachment =
-            AttachmentPhoto("photo", Photo(1, 1, 1, 1, "http://example.com/1.jpg"))
+            AttachmentPhoto( Photo(1, 1, 1, 1, "http://example.com/1.jpg"))
     }
 
     @Test

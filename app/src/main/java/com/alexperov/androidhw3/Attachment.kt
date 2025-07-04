@@ -1,27 +1,32 @@
 package com.alexperov.test
 
-sealed class Attachment(val type: String) {
-
+sealed class Attachment {
+abstract val type: String
 
     class AttachmentPhoto(
-        val photo: Photo
-    )
+        val photo: Photo,
+        override val type: String ="photo"
+    ): Attachment ()
 
     class AttachmentVideo(
-        val video: Video
-    )
+        val video: Video,
+        override val type: String = "video"
+    ) : Attachment()
 
     class AttachmentFile(
-        val file: File
-    )
+        val file: File,
+        override val type: String = "file"
+    ) : Attachment()
 
     class AttachmentAudio(
-        val audio: Audio
-    )
+        val audio: Audio,
+        override val type: String = "audio"
+    ) : Attachment ()
 
     class AttachmentUrl(
-        val url: Url
-    )
+        val url: Url,
+        override val type: String = "url"
+    ) : Attachment ()
 }
 
 data class Photo(
