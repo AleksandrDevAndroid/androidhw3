@@ -4,48 +4,65 @@ import com.alexperov.test.Attachment
 
 object WallService {
 
-    private var posts = mutableMapOf<Int, Post>()
+    private var postsArray = mutableMapOf<Int, Post>()
     private var id = 0
-
-    private var attachment: Array<Attachment> = emptyArray()
     private fun add(post: Post) {
-        posts[post.id as Int] = post
-    }
-
-    fun addAttachment(post: Post, attachment: Attachment): Boolean {
-        post.attachment.add(attachment)
-        if (post.attachment.last() == attachment)
-            return true
-        else return false
-
+        postsArray[post.id as Int] = post
     }
 
     fun clear(): Boolean {
-        posts.clear()
+        postsArray.clear()
         id = 0
-        if (posts.isEmpty())
-            return true
-        else
-            return false
+        return postsArray.isEmpty()
 
     }
 
     fun addPost(post: Post): Post? {
         val newPost = post.copy(id = ++id)
         add(newPost)
-        return posts[newPost.id]
+        return postsArray[newPost.id]
     }
 
-
     fun update(post: Post, text: String): Boolean {
-        if (!posts.containsKey(post.id)) return false
+        if (!postsArray.containsKey(post.id)) return false
         var updatePost = post.copy()
-        posts[post.id as Int] = updatePost.copy(text = text)
+        postsArray[post.id as Int] = updatePost.copy(text = text)
         return true
     }
 
     fun showPost(id: Int?) {
-        println(posts[id].toString())
+        println(postsArray[id].toString())
     }
 
+    fun addAttachment(post: Post, attachment: Attachment): Boolean {
+        post.attachment.add(attachment)
+        return post.attachment.last() == attachment
+    }
+
+    fun createComment(postId: Int?, comment: Comment): Comment? {
+        val post = postsArray[postId] ?: throw Exception("PostNotFoundException")
+        post.commentArray[id] = comment
+        return comment
+
+    }
+    /*Реализовать саму функцию (для простоты храните эти репорты в отдельном массиве).
+Подумать, в каких случаях и какие нужно выкидывать исключения*.
+Написать автотесты.
+Подсказка*
+Обратите внимание, что неверным может быть не только ID комментария, но и причина.
+Важно: после ваших обновлений WallService должна оставаться функциональной, т.е. автотесты должны проходить.
+Итог: у вас должен быть репозиторий на GitHub, в котором расположен ваш Gradle-проект. Автотесты также должны храниться в репозитории.*/
+
+    fun pushStrike(postId: Int?, comment: Int?, reason: Int): String? {
+        val post = postsArray[postId]?.copy() ?: throw Exception("PostNotFoundException")
+        if (post.commentArray.containsKey(comment)) {
+            if(reason + 1 !in 1..NegativeComment.reasonStrike.size) throw Exception("ReasonNotFoundException")
+            post.commentArray[comment]?.reportsArray?.add(NegativeComment.reasonStrike[reason])
+                ?: throw Exception("CommentNotFoundException")
+        }
+        return post.commentArray[comment]?.reportsArray?.last()
+    }
 }
+
+
+

@@ -15,7 +15,8 @@ data class Post(
     val canPin: Boolean?,
     val likes: Int?,
     val date: LocalDate = LocalDate.now(),
-    var attachment: MutableList<Attachment> = mutableListOf()
+    val attachment: MutableList<Attachment> = mutableListOf(),
+    val commentArray: MutableMap<Int, Comment> = mutableMapOf<Int, Comment>(),
 )
 
 
