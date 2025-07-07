@@ -12,3 +12,4 @@ object NegativeComment {
         "призывы к суициду"
     )
 }
+

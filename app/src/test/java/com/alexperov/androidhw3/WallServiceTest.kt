@@ -1,5 +1,6 @@
 package com.alexperov.androidhw3
 
+import com.alexperov.androidhw3.CustomException
 import com.alexperov.test.Attachment
 import com.alexperov.test.Attachment.AttachmentPhoto
 import com.alexperov.test.Photo
@@ -20,7 +21,7 @@ class WallServiceTest {
         testPost = Post(1, 1, 1, 1, "1", 1, 1, true, 0)
         testAttachment =
             AttachmentPhoto(Photo(1, 1, 1, 1, "http://example.com/1.jpg"))
-        testComment = Comment(1, 1, "test message", 2,  attachment = null)
+        testComment = Comment(1, 1, "test message", 2, attachment = null)
     }
 
     @Test
@@ -64,21 +65,23 @@ class WallServiceTest {
         assertEquals(result, testComment)
     }
 
-    @Test(expected = PostNotFoundException::class)
+    @Test(expected = CustomException.PostNotFoundException::class)
     fun shouldThrow() {
-        WallService.createComment(999,testComment)
+        WallService.createComment(999, testComment)
     }
 
     @Test
-   fun checkPushReport (){
+    fun checkPushReport() {
         WallService.addPost(testPost)
-        WallService.createComment(testPost.id,testComment)
-        val result = WallService.pushStrike(testPost.id,testComment.id,1)
+        WallService.createComment(testPost.id, testComment)
+        val result = WallService.pushStrike(testPost.id, testComment.id, 1)
         assertEquals(result, NegativeComment.reasonStrike[1])
     }
 
-    @Test(expected = ReasonNotFoundException::class)
-    fun shoulThrowReason(){
-        WallService.pushStrike(testPost.id,23,20)
+    @Test(expected = CustomException.ReasonNotFoundException::class)
+    fun shouldThrowReason() {
+        WallService.addPost(testPost)
+        WallService.createComment(testPost.id, testComment)
+        WallService.pushStrike(testPost.id, testComment.id, 20)
     }
 }

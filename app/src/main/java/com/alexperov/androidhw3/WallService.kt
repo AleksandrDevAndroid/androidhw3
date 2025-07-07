@@ -1,5 +1,6 @@
 package com.alexperov.androidhw3
 
+import com.alexperov.androidhw3.CustomException
 import com.alexperov.test.Attachment
 
 object WallService {
@@ -40,25 +41,17 @@ object WallService {
     }
 
     fun createComment(postId: Int?, comment: Comment): Comment? {
-        val post = postsArray[postId] ?: throw Exception("PostNotFoundException")
+        val post = postsArray[postId] ?: throw CustomException.PostNotFoundException("PostNotFoundException")
         post.commentArray[id] = comment
         return comment
 
     }
-    /*Реализовать саму функцию (для простоты храните эти репорты в отдельном массиве).
-Подумать, в каких случаях и какие нужно выкидывать исключения*.
-Написать автотесты.
-Подсказка*
-Обратите внимание, что неверным может быть не только ID комментария, но и причина.
-Важно: после ваших обновлений WallService должна оставаться функциональной, т.е. автотесты должны проходить.
-Итог: у вас должен быть репозиторий на GitHub, в котором расположен ваш Gradle-проект. Автотесты также должны храниться в репозитории.*/
-
     fun pushStrike(postId: Int?, comment: Int?, reason: Int): String? {
-        val post = postsArray[postId]?.copy() ?: throw Exception("PostNotFoundException")
+        val post = postsArray[postId]?.copy() ?: throw CustomException.PostNotFoundException("PostNotFoundException")
         if (post.commentArray.containsKey(comment)) {
-            if(reason + 1 !in 1..NegativeComment.reasonStrike.size) throw Exception("ReasonNotFoundException")
+            if(reason + 1 !in 1..NegativeComment.reasonStrike.size) throw CustomException.ReasonNotFoundException("ReasonNotFoundException")
             post.commentArray[comment]?.reportsArray?.add(NegativeComment.reasonStrike[reason])
-                ?: throw Exception("CommentNotFoundException")
+                ?: throw CustomException.CommentNotFoundException("CommentNotFoundException")
         }
         return post.commentArray[comment]?.reportsArray?.last()
     }

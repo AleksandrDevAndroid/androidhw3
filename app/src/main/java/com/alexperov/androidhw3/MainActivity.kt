@@ -11,6 +11,6 @@ fun main() {
     WallService.createComment(post1.id, Comment(1, 2, "Hello",1, attachment = null))
     WallService.addAttachment(post1,attachmentPhoto)
     WallService.pushStrike(post1.id,1,2)
-    println(WallService.pushStrike(post1.id,1,12))
+    println(WallService.pushStrike(post1.id,1,2))
     WallService.showPost(post1.id)
 }
